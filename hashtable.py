@@ -2,4 +2,7 @@
 
 class HashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+
+    def __len__(self):
+        return self.capacity
