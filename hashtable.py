@@ -29,6 +29,10 @@ class HashTable:
         else:
             return True
 
+    def __delitem__(self, key):
+        index = hash(key) % len(self)
+        del self.values[index]
+
     def get(self, key, default=None):
         try:
             return self[key]
