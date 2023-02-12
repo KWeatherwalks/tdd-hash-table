@@ -2,7 +2,7 @@
 
 import pytest
 
-from hashtable import HashTable
+from hashtable import BLANK, HashTable
 
 
 def test_should_create_hashtable():
@@ -15,7 +15,7 @@ def test_should_report_capacity():
 
 def test_should_create_empty_value_slots():
     # Given
-    expected_values = [None, None, None]
+    expected_values = [BLANK, BLANK, BLANK]
     hash_table = HashTable(capacity=3)
 
     # When
@@ -42,3 +42,13 @@ def test_should_insert_key_value_pairs():
 @pytest.mark.skip
 def test_should_not_shrink_when_removing_elements():
     pass
+
+
+def test_should_not_contain_none_value_when_created():
+    assert None not in HashTable(capacity=100).values
+
+
+def test_should_insert_none_value():
+    hash_table = HashTable(capacity=100)
+    hash_table["key"] = None
+    assert None in hash_table.values
