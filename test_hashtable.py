@@ -4,4 +4,4 @@ from hashtable import HashTable
 
 
 def test_should_create_hashtable():
-    assert HashTable() is not None
+    assert HashTable(size=100) is not None
