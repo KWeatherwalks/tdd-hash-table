@@ -28,3 +28,9 @@ class HashTable:
             return False
         else:
             return True
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
