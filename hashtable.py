@@ -16,4 +16,7 @@ class HashTable:
 
     def __getitem__(self, key):
         index = hash(key) % len(self)
-        return self.values[index]
+        value = self.values[index]
+        if value is BLANK:
+            raise KeyError(key)
+        return value
