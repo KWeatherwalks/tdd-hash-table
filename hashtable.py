@@ -13,3 +13,7 @@ class HashTable:
     def __setitem__(self, key, value):
         index = hash(key) % len(self)
         self.values[index] = value
+
+    def __getitem__(self, key):
+        index = hash(key) % len(self)
+        return self.values[index]
