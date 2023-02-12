@@ -10,6 +10,10 @@ class HashTable:
     def __len__(self):
         return len(self.values)
 
+    def __delitem__(self, key):
+        index = hash(key) % len(self)
+        self.values[index] = BLANK
+
     def __setitem__(self, key, value):
         index = hash(key) % len(self)
         self.values[index] = value
@@ -28,10 +32,6 @@ class HashTable:
             return False
         else:
             return True
-
-    def __delitem__(self, key):
-        index = hash(key) % len(self)
-        del self.values[index]
 
     def get(self, key, default=None):
         try:
