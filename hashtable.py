@@ -11,16 +11,13 @@ class HashTable:
         return len(self.values)
 
     def __delitem__(self, key):
-        index = hash(key) % len(self)
-        self.values[index] = BLANK
+        self.values[self._index(key)] = BLANK
 
     def __setitem__(self, key, value):
-        index = hash(key) % len(self)
-        self.values[index] = value
+        self.values[self._index(key)] = value
 
     def __getitem__(self, key):
-        index = hash(key) % len(self)
-        value = self.values[index]
+        value = self.values[self._index(key)]
         if value is BLANK:
             raise KeyError(key)
         return value
@@ -38,3 +35,6 @@ class HashTable:
             return self[key]
         except KeyError:
             return default
+
+    def _index(self, key):
+        return hash(key) % len(self)
