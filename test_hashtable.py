@@ -110,3 +110,9 @@ def test_should_delete_key_value_pair(hash_table):
     assert "hola" not in hash_table
     assert "hello" not in hash_table.values
     assert len(hash_table) == 100
+
+
+def test_should_raise_key_error_when_deleting(hash_table):
+    with pytest.raises(KeyError) as exception_info:
+        del hash_table["missing_key"]
+    assert exception_info.value.args[0] == "missing_key"

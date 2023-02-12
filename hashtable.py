@@ -11,7 +11,10 @@ class HashTable:
         return len(self.values)
 
     def __delitem__(self, key):
-        self[key] = BLANK
+        if key in self:
+            self[key] = BLANK
+        else:
+            raise KeyError(key)
 
     def __setitem__(self, key, value):
         self.values[self._index(key)] = value
