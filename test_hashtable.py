@@ -19,7 +19,7 @@ def test_should_create_empty_value_slots():
     hash_table = HashTable(capacity=3)
 
     # When
-    actual_values = hash_table.pairs
+    actual_values = hash_table._pairs
 
     # Then
     assert actual_values == expected_values
@@ -53,7 +53,7 @@ def test_should_not_contain_none_value_when_created():
 def test_should_insert_none_value():
     hash_table = HashTable(capacity=100)
     hash_table["key"] = None
-    assert None in hash_table.pairs
+    assert ("key", None) in hash_table.pairs
 
 
 @pytest.fixture
@@ -135,3 +135,11 @@ def test_should_return_pairs(hash_table):
     assert ("hola", "hello") in hash_table.pairs
     assert (98.6, 37) in hash_table.pairs
     assert (False, True) in hash_table.pairs
+
+
+def test_should_return_copy_of_pairs(hash_table):
+    assert hash_table.pairs is not hash_table.pairs
+
+
+def test_should_not_include_blank_pairs(hash_table):
+    assert None not in hash_table.pairs
