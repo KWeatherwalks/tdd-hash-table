@@ -45,8 +45,16 @@ class HashTable:
             return default
 
     @property
+    def keys(self):
+        return {pair.key for pair in self.pairs}
+
+    @property
     def pairs(self):
-        return [pair for pair in self._pairs if pair]
+        return {pair for pair in self._pairs if pair}
+
+    @property
+    def values(self):
+        return [pair.value for pair in self.pairs]
 
     def _index(self, key):
         return hash(key) % len(self)
