@@ -14,6 +14,9 @@ class HashTable:
             raise ValueError("Capacity must be a positive number")
         self._slots = capacity * [None]
 
+    def __iter__(self):
+        yield from self.keys
+
     def __len__(self):
         return len(self.pairs)
 
