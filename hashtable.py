@@ -16,6 +16,13 @@ class HashTable:
             hash_table[key] = value
         return hash_table
 
+    def __eq__(self, other):
+        if self is other:
+            return True
+        if type(self) is not type(other):
+            return False
+        return set(self.pairs) == set(other.pairs)
+
     def __init__(self, capacity):
         if capacity < 1:
             raise ValueError("Capacity must be a positive number")
@@ -59,6 +66,9 @@ class HashTable:
             return False
         else:
             return True
+
+    def copy(self):
+        return HashTable.from_dict(dict(self.pairs), self.capacity)
 
     def get(self, key, default=None):
         try:
