@@ -1,5 +1,6 @@
 # test_hashtable.py
 
+from collections import deque
 from unittest.mock import patch
 
 import pytest
@@ -25,13 +26,13 @@ def test_should_report_length_of_empty_hash_table():
     assert len(HashTable(capacity=100)) == 0
 
 
-def test_should_create_empty_pair_slots():
+def test_should_create_empty_pair_buckets():
     # Given
-    expected_values = [None, None, None]
+    expected_values = [deque(), deque(), deque()]
     hash_table = HashTable(capacity=3)
 
     # When
-    actual_values = hash_table._slots
+    actual_values = hash_table._buckets
 
     # Then
     assert actual_values == expected_values
