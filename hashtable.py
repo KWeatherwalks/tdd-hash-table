@@ -18,17 +18,17 @@ class HashTable:
             hash_table[key] = value
         return hash_table
 
+    def __init__(self, capacity=8):
+        if capacity < 1:
+            raise ValueError("Capacity must be a positive number")
+        self._slots = capacity * [None]
+
     def __eq__(self, other):
         if self is other:
             return True
         if type(self) is not type(other):
             return False
         return set(self.pairs) == set(other.pairs)
-
-    def __init__(self, capacity):
-        if capacity < 1:
-            raise ValueError("Capacity must be a positive number")
-        self._slots = capacity * [None]
 
     def __iter__(self):
         yield from self.keys
@@ -56,7 +56,8 @@ class HashTable:
                 self._slots[index] = Pair(key, value)
                 break
         else:
-            raise MemoryError("Not enough capacity")
+            self._resize_and_rehash()
+            self[key] = value
 
     def __repr__(self):
         cls = self.__class__.__name__
@@ -94,6 +95,12 @@ class HashTable:
             return self[key]
         except KeyError:
             return default
+
+    def _resize_and_rehash(self):
+        copy = HashTable(capacity=self.capacity * 2)
+        for key, value in self.pairs:
+            copy[key] = value
+        self._slots = copy._slots
 
     @property
     def keys(self):
