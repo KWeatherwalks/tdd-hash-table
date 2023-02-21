@@ -18,10 +18,13 @@ class HashTable:
             hash_table[key] = value
         return hash_table
 
-    def __init__(self, capacity=8):
+    def __init__(self, capacity=8, load_factor_threshold=0.6):
         if capacity < 1:
             raise ValueError("Capacity must be a positive number")
+        if not (0 < load_factor_threshold <= 1):
+            raise ValueError("Load factor must be a number between (0,1]")
         self._slots = capacity * [None]
+        self._load_factor_threshold = load_factor_threshold
 
     def __eq__(self, other):
         if self is other:
@@ -49,6 +52,9 @@ class HashTable:
             raise KeyError(key)
 
     def __setitem__(self, key, value):
+        if self.load_factor >= self._load_factor_threshold:
+            self._resize_and_rehash()
+
         for index, pair in self._probe(key):
             if pair is DELETED:
                 continue
@@ -117,6 +123,11 @@ class HashTable:
     @property
     def capacity(self):
         return len(self._slots)
+
+    @property
+    def load_factor(self):
+        occupied_or_deleted = [slot for slot in self._slots if slot]
+        return len(occupied_or_deleted) / self.capacity
 
     def _index(self, key):
         return hash(key) % self.capacity
