@@ -24,6 +24,7 @@ class HashTable:
             raise ValueError("Capacity must be a positive number")
         if not (0 < load_factor_threshold <= 1):
             raise ValueError("Load factor must be a number between (0,1]")
+        self._keys = []
         self._buckets = [deque() for _ in range(capacity)]
         self._load_factor_threshold = load_factor_threshold
 
@@ -45,6 +46,7 @@ class HashTable:
         for index, pair in enumerate(bucket):
             if pair.key == key:
                 del bucket[index]
+                self._keys.remove(key)
                 break
         else:
             raise KeyError(key)
@@ -60,6 +62,7 @@ class HashTable:
                 break
         else:
             bucket.append(Pair(key, value))
+            self._keys.append(key)
 
     def __repr__(self):
         cls = self.__class__.__name__
@@ -103,15 +106,15 @@ class HashTable:
 
     @property
     def keys(self):
-        return {pair.key for pair in self.pairs}
+        return self._keys.copy()
 
     @property
     def pairs(self):
-        return {pair for bucket in self._buckets for pair in bucket}
+        return [(key, self[key]) for key in self.keys]
 
     @property
     def values(self):
-        return [pair.value for pair in self.pairs]
+        return [self[key] for key in self.keys]
 
     @property
     def capacity(self):
